@@ -1,0 +1,7 @@
+SpeechRecognition
+# PyAudio -> in the conda environment `conda install PyAudio`
+google-generativeai
+streamlit
+gTTS
+python-dotenv
+-e .
