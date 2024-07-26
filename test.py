@@ -22,7 +22,7 @@ def get_voice_input():
 
     try:
         # speech to text
-        text = recognizer.recognize_google(audio_obj)
+        text = sr.recognize_google(audio_obj)
         print(f"You said: {text}")
         return text
     except sr.UnknownValueError:
@@ -35,28 +35,25 @@ def get_response_from_llm(user_text):
     Args:
         - user_text: User's speech through Mic converted to text
     '''
-    genai.configure(api_key = GEMINI_API_KEY)
     model_name = "gemini-pro"
     model = genai.GenerativeModel(model_name)
     prompt = user_text
     response = model.generate_content(prompt)
-    print(type(response))
-    print(response)
-    # result = response.text
-    response_dict = response.to_dict()  # Assuming the method is named `to_dict`
-    print( response_dict, type(response_dict) )
-    result = response_dict['candidates'][0]['content']['parts'][0]['text']
+    result = response.text
     return result
 
 def text_to_speech(llm_response_text):
     '''
     Args:
         - llm_response_text: Takes LLM response as input
-    Returns:
-
+    Action:
+        - Sets up the tts
+        - Saves the final audio in a mp3 file
     '''
-    tts = gTTS(text=llm_response_text, lang="en")
+    tts = gTTS(text = llm_response_text, lang = "en")
     tts.save("speech.mp3")
+    return
+
 
 
 
